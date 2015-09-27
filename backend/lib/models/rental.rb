@@ -5,17 +5,26 @@ Rental = Struct.new(:id, :car_id, :start_date, :end_date, :distance) do
   attr_accessor :car
 
   def price
-    price_per_day + price_per_km
+    price_per_all_days + price_per_all_kms
   end
 
   private
 
-  def price_per_day
-    duration * car.price_per_day
+  def price_per_all_kms
+    distance * car.price_per_km
   end
 
-  def price_per_km
-    distance * car.price_per_km
+  def price_per_all_days
+    (1..duration).to_a.map { |day| price_for_day(day) }.inject(&:+)
+  end
+
+  def price_for_day(day)
+    case day
+    when 1     then car.price_per_day
+    when 2..4  then car.price_per_day * 0.9
+    when 5..10 then car.price_per_day * 0.7
+    else            car.price_per_day * 0.5
+    end.to_i
   end
 
   def duration
