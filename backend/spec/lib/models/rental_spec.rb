@@ -36,6 +36,21 @@ RSpec.describe Rental do
     end
   end
 
+  describe "#insurance_fee" do
+    subject(:insurance_fee) { rental.insurance_fee }
+    it { is_expected.to eq (rental.price * 0.3 * 0.5) }
+  end
+
+  describe "#assistance_fee" do
+    subject(:assistance_fee) { rental.assistance_fee }
+    it { is_expected.to eq 500 }
+  end
+
+  describe "#drivy_fee" do
+    subject(:drivy_fee) { rental.drivy_fee }
+    it { is_expected.to eq (rental.price * 0.3 * 0.5 - rental.assistance_fee) }
+  end
+
   let(:rental) do
     Rental.new(1, 1, start_date, end_date, distance).tap do |rental|
       rental.car = car
