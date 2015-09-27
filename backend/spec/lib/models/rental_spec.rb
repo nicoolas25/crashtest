@@ -36,6 +36,19 @@ RSpec.describe Rental do
     end
   end
 
+  describe "#deductible_reduction_price" do
+    subject(:deductible_reduction_price) { rental.deductible_reduction_price }
+
+    context "with a rental of five days" do
+      it { is_expected.to eq (400 * 5) }
+    end
+
+    context "when the deductible_reduction option is false" do
+      let(:deductible) { false }
+      it { is_expected.to eq 0 }
+    end
+  end
+
   describe "#insurance_fee" do
     subject(:insurance_fee) { rental.insurance_fee }
     it { is_expected.to eq (rental.price * 0.3 * 0.5) }
@@ -52,7 +65,7 @@ RSpec.describe Rental do
   end
 
   let(:rental) do
-    Rental.new(1, 1, start_date, end_date, distance).tap do |rental|
+    Rental.new(1, 1, start_date, end_date, distance, deductible).tap do |rental|
       rental.car = car
     end
   end
@@ -61,4 +74,5 @@ RSpec.describe Rental do
   let(:start_date) { "2015-09-29" }
   let(:end_date) { "2015-10-03" }
   let(:distance) { 50 }
+  let(:deductible) { true }
 end

@@ -41,6 +41,7 @@ RSpec.describe RentalRepository do
           "start_date" => "2017-12-8",
           "end_date" => "2017-12-10",
           "distance" => 100,
+          "deductible_reduction" => true,
         },
         {
           "id" => 2,
@@ -48,6 +49,7 @@ RSpec.describe RentalRepository do
           "start_date" => "2017-12-20",
           "end_date" => "2017-12-20",
           "distance" => 200,
+          "deductible_reduction" => false,
         },
       ]
     end

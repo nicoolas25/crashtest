@@ -1,11 +1,19 @@
 require_relative "../errors"
 
-Rental = Struct.new(:id, :car_id, :start_date, :end_date, :distance) do
+Rental = Struct.new(:id, :car_id, :start_date, :end_date, :distance, :deductible_reduction) do
 
   attr_accessor :car
 
   def price
     price_per_all_days + price_per_all_kms
+  end
+
+  def deductible_reduction_price
+    if deductible_reduction
+      400 * duration
+    else
+      0
+    end
   end
 
   def insurance_fee
