@@ -1,6 +1,11 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
 require "pry-byebug"
+require "simplecov"
+
+SimpleCov.start do
+  add_filter { |source| source.filename =~ %r(/spec/.*\.rb$) }
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

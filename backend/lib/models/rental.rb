@@ -4,25 +4,25 @@ Rental = Struct.new(:id, :car_id, :start_date, :end_date, :distance, :deductible
 
   attr_accessor :car
 
-  def driver_debit
-    deductible_reduction_price + price
+  def driver_amount
+    - (deductible_reduction_price + price)
   end
 
-  def owner_credit
-    driver_debit - insurance_credit - assistance_credit - drivy_credit
+  def owner_amount
+    price - commission
   end
 
-  def insurance_credit
+  def insurance_amount
     (commission * 0.5).to_i
   end
 
-  def assistance_credit
+  def assistance_amount
     duration * 100
   end
 
-  def drivy_credit
+  def drivy_amount
     deductible_reduction_price +
-      (commission - insurance_credit - assistance_credit).to_i
+      (commission - insurance_amount - assistance_amount)
   end
 
   private
@@ -55,7 +55,7 @@ Rental = Struct.new(:id, :car_id, :start_date, :end_date, :distance, :deductible
   end
 
   def commission
-    price * 0.3
+    (price * 0.3).to_i
   end
 
   def deductible_reduction_price

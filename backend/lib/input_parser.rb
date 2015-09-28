@@ -1,16 +1,10 @@
 require_relative "repositories/car_repository"
 require_relative "repositories/rental_repository"
+require_relative "repositories/modification_repository"
 
 class InputParser
   def initialize(filepath)
     @filepath = filepath
-  end
-
-  def cars
-    @cars ||= CarRepository.new.tap do |repository|
-      car_hashes = input_hash.fetch("cars")
-      repository.load(car_hashes)
-    end
   end
 
   def rentals
@@ -20,7 +14,21 @@ class InputParser
     end
   end
 
+  def modifications
+    @modifications ||= ModificationRepository.new.tap do |repository|
+      modification_hashes = input_hash.fetch("rental_modifications")
+      repository.load(modification_hashes, rentals: rentals)
+    end
+  end
+
   private
+
+  def cars
+    @cars ||= CarRepository.new.tap do |repository|
+      car_hashes = input_hash.fetch("cars")
+      repository.load(car_hashes)
+    end
+  end
 
   def input_hash
     @inputh_hash ||= JSON.parse(content)
