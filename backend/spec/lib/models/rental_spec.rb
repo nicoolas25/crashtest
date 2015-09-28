@@ -1,8 +1,9 @@
 require "models/rental"
 
 RSpec.describe Rental do
-  describe "#price" do
-    subject(:price) { rental.price }
+  describe "#driver_debit" do
+    subject(:driver_debit) { rental.driver_debit }
+    let(:deductible) { false }
 
     context "when the duration is one day" do
       let(:end_date) { start_date }
@@ -27,41 +28,38 @@ RSpec.describe Rental do
       # 50 + 1000 + (3 * 1000 * 0.9) + (6 * 1000 * 0.7) + (10 * 1000 * 0.5)
     end
 
+    context "when the deductible_reduction option is present" do
+      let(:deductible) { true }
+
+      context "when the duration is two days" do
+        let(:end_date) { "2015-09-30" }
+
+        it { is_expected.to eq (1950 + 800) }
+      end
+    end
+
     context "when the end_date is before the start date" do
       let(:end_date) { "2015-09-28" }
 
       it "raises a RentalDurationError" do
-        expect { price }.to raise_error(RentalDurationError)
+        expect { driver_debit }.to raise_error(RentalDurationError)
       end
     end
   end
 
-  describe "#deductible_reduction_price" do
-    subject(:deductible_reduction_price) { rental.deductible_reduction_price }
-
-    context "with a rental of five days" do
-      it { is_expected.to eq (400 * 5) }
-    end
-
-    context "when the deductible_reduction option is false" do
-      let(:deductible) { false }
-      it { is_expected.to eq 0 }
-    end
+  describe "#insurance_credit" do
+    subject(:insurance_credit) { rental.insurance_credit }
+    it { is_expected.to eq 667 }
   end
 
-  describe "#insurance_fee" do
-    subject(:insurance_fee) { rental.insurance_fee }
-    it { is_expected.to eq (rental.price * 0.3 * 0.5) }
-  end
-
-  describe "#assistance_fee" do
-    subject(:assistance_fee) { rental.assistance_fee }
+  describe "#assistance_credit" do
+    subject(:assistance_credit) { rental.assistance_credit }
     it { is_expected.to eq 500 }
   end
 
-  describe "#drivy_fee" do
-    subject(:drivy_fee) { rental.drivy_fee }
-    it { is_expected.to eq (rental.price * 0.3 * 0.5 - rental.assistance_fee) }
+  describe "#drivy_credit" do
+    subject(:drivy_credit) { rental.drivy_credit }
+    it { is_expected.to eq 2168 }
   end
 
   let(:rental) do

@@ -15,9 +15,14 @@ RSpec.describe "The level 3 script" do
   let(:level) { 3 }
   include_context "level's test"
 end
-=end
 
 RSpec.describe "The level 4 script" do
   let(:level) { 4 }
+  include_context "level's test"
+end
+=end
+
+RSpec.describe "The level 5 script" do
+  let(:level) { 5 }
   include_context "level's test"
 end
