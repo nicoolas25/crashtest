@@ -24,3 +24,10 @@ For higher levels we are interested in seeing code that is:
 ## Things to know
 
 - all prices are stored as integers (in cents)
+
+## Running the tests
+
+- Have a recent version of Ruby (>= 2.1)
+- Install the `bundler` gem via `gem install bundler`
+- Run `bundle install` in this directory
+- Use RSpec to launch the test suite: `bundle exec rspec`
