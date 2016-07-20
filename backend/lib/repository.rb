@@ -1,5 +1,17 @@
 require_relative "errors"
 
+
+# A `Repository` is the interface that the program will use to access the
+# objects of the database. The two main methods to access the elements are:
+#
+# - `Repository#all` to access the list of all the elements in the repository,
+# - `Repository#fetch(id)` to find a specific element using its `id`.
+#
+# The repository ensure that for one ID there is only one associated object.
+# # TODO: This validation should be the job of the repository.
+#
+# The `Repository` class serve as a base class for specific repositories.
+# It must not be instanciated directly.
 class Repository
 
   class << self
@@ -17,7 +29,7 @@ class Repository
   def fetch(id)
     @instances.fetch(id)
   rescue KeyError
-    raise NotFoundInRepository.new(self, id)
+    raise NotFoundInRepositoryError.new(self, id)
   end
 
   def load(hashes, dependencies = {})

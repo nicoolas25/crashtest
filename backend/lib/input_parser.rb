@@ -2,6 +2,14 @@ require_relative "repositories/car_repository"
 require_relative "repositories/rental_repository"
 require_relative "repositories/modification_repository"
 
+# The `InputParser` is in charge of reading the database and providing
+# the relevent repositories:
+#
+# - a `RentalRepository` for the rentals and
+# - a `ModificationRepository` for the modifications
+#
+# The input parser knows about the structure of the JSON database,
+# including the dependencies between the different types of entities.
 class InputParser
   def initialize(filepath)
     @filepath = filepath

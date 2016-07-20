@@ -1,4 +1,4 @@
-NotFoundInRepository = Class.new(StandardError) do
+NotFoundInRepositoryError = Class.new(StandardError) do
   def initialize(repository, missing_id)
     @repository, @missing_id = repository, missing_id
   end

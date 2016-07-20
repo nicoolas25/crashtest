@@ -58,8 +58,8 @@ RSpec.describe Repository do
     subject(:fetch) { repository.fetch(1) }
 
     context "when the repository don't have any entry with the given ID" do
-      it "raises a NotFoundInRepository error" do
-        expect { fetch }.to raise_error(NotFoundInRepository)
+      it "raises a NtFoundInRepositoryError" do
+        expect { fetch }.to raise_error(NotFoundInRepositoryError)
       end
     end
 
